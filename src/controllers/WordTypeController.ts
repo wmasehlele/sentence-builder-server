@@ -10,9 +10,11 @@ export class WordTypeController {
   }
 
   getWordTypes = async (req: Request, res: Response) => {
-    const word_types: WordType[] = this._wordTypeModel.GetWordsTypes();
-    res.send(word_types);
+    await this._wordTypeModel.GetWordsTypes().then( (results: WordType[]) => {
+        res.send(results);
+    }).catch((error) => {
+        res.status(500);
+        res.send({"message": error.message});
+    });
   }
-
-
 }

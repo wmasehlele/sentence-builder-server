@@ -22,15 +22,15 @@ export class Db {
     }
 
     constructor() {
-        this.CreateConnection ()    
+        //this.CreateConnection ()    
     }
 
-    async CreateConnection (){
-        this.dbConnection = await mssql.connect(this.dbConfig);
+    async CreateConnection (){        
         //this.testConnection();
     }
 
-    GetConnection(){
+    async GetConnection(){
+        this.dbConnection = await mssql.connect(this.dbConfig);
         return this.dbConnection;
     }
 

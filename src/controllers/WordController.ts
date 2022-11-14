@@ -1,3 +1,4 @@
+import { Helper } from '../helper';
 import { Request, Response } from 'express';
 import { Word, WordModel } from '../models/Word';
 
@@ -9,12 +10,19 @@ export class WordController {
     this._wordModel = wordModel;
   }
 
-  getWordsByTypeId = async (req: Request, res: Response) => {
+  getWordsByTypeId = async (req: Request, res: Response) => {        
+    if (!Helper.isNumber(req.params.word_type_id)) { 
+        res.status(400);
+        res.send({"message": "Missing route parameter word_type_id."});
+    }
+
     let word_type_id: number = Number(req.params.word_type_id);
-    const words: Word[] = this._wordModel.GetWordsByWordTypeId(word_type_id);
-    res.send(words);
+
+    await this._wordModel.GetWordsByWordTypeId(word_type_id).then((results: Word[]) => {
+        res.send(results);
+    }).catch((error) => {
+        res.status(500);
+        res.send({"message": error.message});
+    });
   } 
-
-  
-
 }

@@ -10,16 +10,25 @@ export class SentenceController {
   }
 
   getSentences = async (req: Request, res: Response) => {        
-      const sentences: Sentence[] = this._senetenceModel.GetSentences();
-      res.send(sentences);
+      await this._senetenceModel.GetSentences().then( (results: Sentence[]) => {
+        res.send(results);
+    }).catch((error) => {
+        res.status(500);
+        res.send({"message": error.message});
+    });
   }
   
   saveSentence = async (req: Request, res: Response) => {
     if (req.body.sentence == "") { 
-      throw new Error("Cannot submit blank sentence");
+      res.status(400);
+      res.send({"message": "Failed to submit a blank sentence."});
     }
     this._senetenceModel.sentence = req.body.sentence;
-    this._senetenceModel.SaveSentence();
-    res.send({"message": "Saved successfully"});
+    await this._senetenceModel.SaveSentence().then( (results: Sentence) => {
+      res.send(results);
+    }).catch((error) => {
+        res.status(500);
+        res.send({"message": error.message});
+    });
   }    
 }

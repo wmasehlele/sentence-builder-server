@@ -1,3 +1,5 @@
+import { Db } from "../database";
+
 export interface Word {
     id?: number;
     word_type_id?: number;
@@ -10,46 +12,41 @@ export class WordModel implements Word {
     word_type_id?: number = 0;
     word: string = "";
 
-    GetWords () {
-        const words: Word[] = [
-            {
-                "id": 1,
-                "word_type_id": 1,
-                "word": "The"
-              },
-              {
-                "id": 2,
-                "word_type_id": 2,
-                "word": "Moment"
-              },
-              {
-                "id": 3,
-                "word_type_id": 3,
-                "word": "Hello"
-              }             
-        ]
-        return words;
-    }
+    private database: any;
+    private dbConnection: any;
 
-    GetWordsByWordTypeId (word_type_id: number): Word[] {
-        const words: Word[] = [
-            {
-                "id": 1,
-                "word_type_id": 1,
-                "word": "The"
-              },
-              {
-                "id": 2,
-                "word_type_id": 2,
-                "word": "Moment"
-              },
-              {
-                "id": 3,
-                "word_type_id": 3,
-                "word": "Hello"
-              }             
-        ];
-        return words.filter(word => word.word_type_id === word_type_id);
+    constructor(){
+        this.database = new Db();
     }    
 
+    async GetWords () {
+        try {
+            this.dbConnection = await this.database.GetConnection();
+            const result = await this.dbConnection.request()
+                .input("operation", "select")
+                .execute("[dbo].[sp_manage_words]");
+
+            this.dbConnection.close()
+            return result.recordset as Word[];
+        } catch (e) {
+            this.dbConnection.close()
+            throw new Error((e as Error).message);
+        } 
+    }
+
+    async GetWordsByWordTypeId (word_type_id: number): Promise<Word[]> {        
+        try {
+            this.dbConnection = await this.database.GetConnection();
+            const result = await this.dbConnection.request()
+                .input("word_type_id", word_type_id)
+                .input("operation", "select")
+                .execute("[dbo].[sp_manage_words]");
+
+            this.dbConnection.close()
+            return result.recordset as Word[]; 
+        } catch (e) {
+            this.dbConnection.close()
+            throw new Error((e as Error).message);
+        } 
+    }    
 }
