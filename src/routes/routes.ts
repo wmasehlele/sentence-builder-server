@@ -7,7 +7,7 @@ const sentenceController: SentenceController = new SentenceController();
 export const AppRouter = (() => {
     
     let router: Router = express.Router();
-    router.use('/sentences', SentenceRoutes)        
+    router.use('/sentence', SentenceRoutes)        
 
     return router;
 })();

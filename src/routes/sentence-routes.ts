@@ -9,24 +9,20 @@ export const SentenceRoutes = (() => {
     let router: Router = express.Router();
 
     router
-        .route('/')
-        .get(sentenceController.getSentences);
-
-    router
-        .route('/sentences')
+        .route('/list')
         .get(sentenceController.getSentences);        
     
     router
         .route('/word-types')
-        .get(sentenceController.getSentences);                
+        .get(sentenceController.getWordTypes);                
 
     router
-        .route('/words-by-type')
-        .get(sentenceController.getSentences);   
+        .route('/words-by-type/:word_type_id')
+        .get(sentenceController.getWordsByTypeId);   
         
     router
         .route('/save-sentence')
-        .post(sentenceController.getSentences);         
+        .post(sentenceController.saveSentence);         
 
     return router;
 })();
