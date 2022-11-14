@@ -1,12 +1,20 @@
 import express, {Router} from 'express'
 import { SentenceController } from '../controllers/SentenceController';
+import { WordController } from '../controllers/WordController';
+import { WordTypeController } from '../controllers/WordTypeController';
 import { SentenceModel } from '../models/Sentence';
 import { WordModel } from '../models/Word';
 import { WordTypeModel } from '../models/WordType';
 
 const sentenceController: SentenceController = new SentenceController(
-    new SentenceModel(),
-    new WordModel(),
+    new SentenceModel()
+);
+
+const wordController: WordController = new WordController(
+    new WordModel()
+);
+
+const wordTypeController: WordTypeController = new WordTypeController(
     new WordTypeModel()
 );
 
@@ -22,11 +30,11 @@ export const SentenceRoutes = (() => {
     
     router
         .route('/word-types')
-        .get(sentenceController.getWordTypes);                
+        .get(wordTypeController.getWordTypes);                
 
     router
         .route('/words-by-type/:word_type_id')
-        .get(sentenceController.getWordsByTypeId);   
+        .get(wordController.getWordsByTypeId);   
         
     router
         .route('/save-sentence')
