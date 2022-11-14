@@ -1,14 +1,18 @@
 import { Request, Response } from 'express';
 import { Sentence, SentenceModel } from "../models/Sentence";
-import { WordType } from '../models/WordType';
-import { Word } from '../models/Word';
+import { WordType, WordTypeModel } from '../models/WordType';
+import { Word, WordModel } from '../models/Word';
 
 export class SentenceController {
 
-  private _senetenceModel: SentenceModel
+  private _senetenceModel: SentenceModel;
+  private _wordModel: WordModel;
+  private _wordTypeModel: WordTypeModel;
 
-  constructor(senetenceModel: SentenceModel) { 
+  constructor(senetenceModel: SentenceModel, wordModel: WordModel, wordTypeModel: WordTypeModel) { 
     this._senetenceModel = senetenceModel;
+    this._wordModel = wordModel;
+    this._wordTypeModel = wordTypeModel;
   }
 
   getSentences = async (req: Request, res: Response) => {        

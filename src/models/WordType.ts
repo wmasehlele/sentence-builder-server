@@ -3,7 +3,7 @@ export interface WordType {
     word_type: string;
 }
 
-export class WordModel implements WordType {
+export class WordTypeModel implements WordType {
 
     id?: number = 0;
     word_type: string = "";
