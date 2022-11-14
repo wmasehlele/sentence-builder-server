@@ -1,8 +1,12 @@
 import express, {Router} from 'express'
 import { SentenceController } from '../controllers/SentenceController';
-import { Sentence } from '../models/Sentence';
+import { SentenceModel } from '../models/Sentence';
 
-const sentenceController: SentenceController = new SentenceController();
+const sentenceController: SentenceController = new SentenceController(
+    new SentenceModel()
+);
+
+// add relevant controllers here and inject their dependencies in the constructor;
 
 export const SentenceRoutes = (() => {
     
