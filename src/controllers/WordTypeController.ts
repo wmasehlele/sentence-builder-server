@@ -10,20 +10,7 @@ export class WordTypeController {
   }
 
   getWordTypes = async (req: Request, res: Response) => {
-    const word_types: WordType[] = [
-      {
-        "id": 1,
-        "word_type": "Noun"
-      },
-      {
-        "id": 2,
-        "word_type": "Preposition"
-      },
-      {
-        "id": 3,
-        "word_type": "Verb"
-      }             
-    ];
+    const word_types: WordType[] = this._wordTypeModel.GetWordsTypes();
     res.send(word_types);
   }
 
