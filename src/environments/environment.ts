@@ -1,4 +1,9 @@
 export const environment = {
     production: false,
-    port: 3000
-};
+    port: 3000,
+
+    db_server: 'ZAJNBCONMAMOELA\\SQLEXPRESS',
+    db_name: 'sentencebuilder',
+    db_user: 'masehlele',
+    db_password: '_sde@rh!123!',
+}; 

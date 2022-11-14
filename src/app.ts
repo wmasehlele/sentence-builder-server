@@ -3,6 +3,7 @@ import { environment } from './environments/environment'
 import cors from "cors";
 import { AppRouter } from './routes/routes'
 
+import { Db } from './database'
 
 const app: Application = express();
 const corsOptions = {
@@ -22,3 +23,5 @@ const port: number = environment.port;
 app.listen(port, () => {
     console.log(`connected on port ${port}`);
 });
+
+new Db().GetConnection();
