@@ -1,4 +1,5 @@
 import { Db } from "../database";
+import { AppModel } from "./AppModel";
 
 export interface Word {
     id?: number;
@@ -6,22 +7,19 @@ export interface Word {
     word: string;
 }
 
-export class WordModel implements Word {
+export class WordModel extends AppModel implements Word {
 
     id?: number = 0;
     word_type_id?: number = 0;
     word: string = "";
 
-    private database: any;
-    private dbConnection: any;
-
     constructor(){
-        this.database = new Db();
+        super();
     }    
 
     async GetWords () {
         try {
-            this.dbConnection = await this.database.GetConnection();
+            this.dbConnection = await this.GetDbConnection();
             const result = await this.dbConnection.request()
                 .input("operation", "select")
                 .execute("[dbo].[sp_manage_words]");
@@ -29,6 +27,7 @@ export class WordModel implements Word {
             this.dbConnection.close()
             return result.recordset as Word[];
         } catch (e) {
+            console.error(e as Error);
             this.dbConnection.close()
             throw new Error((e as Error).message);
         } 
@@ -36,7 +35,7 @@ export class WordModel implements Word {
 
     async GetWordsByWordTypeId (word_type_id: number): Promise<Word[]> {        
         try {
-            this.dbConnection = await this.database.GetConnection();
+            this.dbConnection = await this.GetDbConnection();
             const result = await this.dbConnection.request()
                 .input("word_type_id", word_type_id)
                 .input("operation", "select")
@@ -45,6 +44,7 @@ export class WordModel implements Word {
             this.dbConnection.close()
             return result.recordset as Word[]; 
         } catch (e) {
+            console.error(e as Error);
             this.dbConnection.close()
             throw new Error((e as Error).message);
         } 

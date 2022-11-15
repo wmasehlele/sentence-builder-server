@@ -1,4 +1,5 @@
 import { Db } from '../database';
+import { AppModel } from './AppModel';
 
 
 export interface WordType {
@@ -6,21 +7,18 @@ export interface WordType {
     word_type: string;
 }
 
-export class WordTypeModel implements WordType {
+export class WordTypeModel extends AppModel implements WordType {
 
     id?: number = 0;
     word_type: string = "";
 
-    private database: any;
-    private dbConnection: any;
-
     constructor(){
-        this.database = new Db();
+        super();
     }
 
     async GetWordsTypes(): Promise<WordType[]> {
         try {
-            this.dbConnection = await this.database.GetConnection();
+            this.dbConnection = await this.GetDbConnection();
             const result = await this.dbConnection.request()
                 .input("operation", "select")
                 .execute("[dbo].[sp_manage_word_types]");
@@ -28,6 +26,7 @@ export class WordTypeModel implements WordType {
             this.dbConnection.close();
             return result.recordset as WordType[];
         } catch (e) {
+            console.error(e as Error);
             this.dbConnection.close()
             throw new Error((e as Error).message);
         }         

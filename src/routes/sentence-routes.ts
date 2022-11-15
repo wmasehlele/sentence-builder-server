@@ -26,7 +26,7 @@ export const SentenceRoutes = (() => {
 
     router
         .route('/list')
-        .get(sentenceController.getSentences);        
+        .get([sentenceController.checkAuthenctication],sentenceController.getSentences);        
     
     router
         .route('/word-types')
