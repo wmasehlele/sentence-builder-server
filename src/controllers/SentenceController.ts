@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { Helper } from '../helper';
 import { Sentence, SentenceModel } from "../models/Sentence";
 import { AppController } from './AppController';
 
@@ -29,5 +30,18 @@ export class SentenceController extends AppController{
     }).catch((error) => {
         res.status(500).send({ok: false, message: error.message});
     });
-  }    
+  }   
+  
+  deleteSentence = async (req: Request, res: Response) => {
+    if (!Helper.isNumber(req.params.sentence_id)) { 
+      res.status(400).send({ok: false, message: "Missing route parameter sentence_id."});
+    }
+
+    let sentence_id: number = Number(req.params.sentence_id);
+    await this._senetenceModel.DeleteSentence(sentence_id).then((results: any) => {
+      res.send({ok: true, message: "Sentence deleted."});
+    }).catch((error) => {
+        res.status(500).send({ok: false, message: error.message});
+    });
+  }   
 }

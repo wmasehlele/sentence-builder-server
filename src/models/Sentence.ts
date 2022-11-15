@@ -47,8 +47,20 @@ export class SentenceModel extends AppModel implements Sentence {
         }
     }
 
-    DeleteSentence (sentence_id: number): boolean {
-        console.log("Sentence model delted the sentence: " + this.sentence);
-        return true;
+    async DeleteSentence (sentence_id: number): Promise<boolean> {
+        try {
+            this.dbConnection = await this.GetDbConnection();
+            const result = await this.dbConnection.request()
+                .input("id", sentence_id)
+                .input("operation", "delete")
+                .execute("[dbo].[sp_manage_sentences]");
+
+            this.dbConnection.close()
+            return true;
+        } catch (e) {
+            console.error(e as Error);
+            this.dbConnection.close()
+            throw new Error((e as Error).message);
+        }        
     }
 }

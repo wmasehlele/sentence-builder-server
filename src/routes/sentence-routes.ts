@@ -40,5 +40,9 @@ export const SentenceRoutes = (() => {
         .route('/save-sentence')
         .post(sentenceController.saveSentence);         
 
+    router
+        .route('/delete-sentence/:sentence_id')
+        .delete(sentenceController.deleteSentence);             
+
     return router;
 })();

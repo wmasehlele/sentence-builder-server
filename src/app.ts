@@ -16,9 +16,9 @@ app.use(cors(corsOptions));
 app.use('/api', AppRouter);
 
 app.use( (err: Error, req: Request, res: Response) => {    
-    res.status(500);
-    res.send( err.message );
-    console.log(err.message);
+    // res.status(500);
+    // res.send( err.message );
+    // console.log(err.message);
 });
 
 const port: number = environment.port;
