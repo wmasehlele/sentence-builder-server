@@ -27,7 +27,8 @@ export class SentenceModel implements Sentence {
             this.dbConnection.close()
             return result.recordset as Sentence[];
         } catch (e) {
-            this.dbConnection.close()
+            this.dbConnection.close();
+            console.log(e as Error);
             throw new Error((e as Error).message);
         } 
     }

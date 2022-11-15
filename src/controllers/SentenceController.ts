@@ -12,7 +12,7 @@ export class SentenceController {
   getSentences = async (req: Request, res: Response) => {        
       await this._senetenceModel.GetSentences().then( (results: Sentence[]) => {
         res.send(results);
-    }).catch((error) => {
+    }).catch((error: Error) => {
         res.status(500);
         res.send({"message": error.message});
     });
@@ -24,7 +24,7 @@ export class SentenceController {
       res.send({"message": "Failed to submit a blank sentence."});
     }
     this._senetenceModel.sentence = req.body.sentence;
-    await this._senetenceModel.SaveSentence().then( (results: Sentence) => {
+    await this._senetenceModel.SaveSentence().then((results: Sentence) => {
       res.send(results);
     }).catch((error) => {
         res.status(500);
