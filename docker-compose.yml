@@ -1,0 +1,11 @@
+version: "3"
+services:
+  sentence-builder-nodejs-app:
+    build: ../sentence-builder-server
+    ports:
+      - "3000:3000"
+
+  sentence-builder-angular-app:
+    build: ../sentence-builder
+    ports:
+      - "4200:80"
